@@ -48,6 +48,9 @@ public class Robot extends TimedRobot {
   private boolean once;
   private double curtime;
   private double lasttime;
+  private double m_interval;
+  private double lastChange;
+  private boolean on;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -69,6 +72,7 @@ public class Robot extends TimedRobot {
     once = false;
     curtime = 0;
     lasttime = 0;
+    on = true;
   }
 
   /**
@@ -161,28 +165,42 @@ public class Robot extends TimedRobot {
     //     }
     //   }
     // }
-    for (int x = 0; x < buffer.getLength(); x++){
-      if (timer.get() % time < 0.1){
-        curtime = timer.get();
-        System.out.println("current time is " + curtime + " last time was " + lasttime);
-        System.out.println("current time - last time = " + (curtime-lasttime));
-        if (curtime-lasttime < time){
-          System.out.println("idk if this was print");
-        buffer.setRGB(x, red, green, blue);
-        led.setData(buffer);
-        System.out.println("last time should be " + timer.get());
-        lasttime = timer.get();
-        if (joystick.getPOV() != -1){
-          System.out.println("stopping?");
-          stop = true;
-        }
-        }
-        if (joystick.getPOV() != -1){
-          System.out.println("stopping?");
-          stop = true;
-        }
-      }
-    }
+
+    //attempt #2:
+    // for (int x = 0; x < buffer.getLength(); x++){
+    //   if (timer.get() % time < 0.1){
+    //     curtime = timer.get();
+    //     System.out.println("current time is " + curtime + " last time was " + lasttime);
+    //     System.out.println("current time - last time = " + (curtime-lasttime));
+    //     if (curtime-lasttime < time){
+    //       System.out.println("idk if this was print");
+    //     buffer.setRGB(x, red, green, blue);
+    //     led.setData(buffer);
+    //     System.out.println("last time should be " + timer.get());
+    //     lasttime = timer.get();
+    //     if (joystick.getPOV() != -1){
+    //       System.out.println("stopping?");
+    //       stop = true;
+    //     }
+    //     }
+    //     if (joystick.getPOV() != -1){
+    //       System.out.println("stopping?");
+    //       stop = true;
+    //     }
+     // }
+   // }
+   double timestamp = Timer.getFPGATimestamp();
+		if (timestamp- lastChange > m_interval){ //warning, i dont see where this changes on back to true...
+			on = !on;
+			lastChange = timestamp;
+		}
+		if (on){
+			// m_onPattern.setLEDs(buffer);
+      rgb(255,0,0);
+		} else {
+			// m_offPattern.setLEDs(buffer);
+      rgb(0,0,0);
+		}
   }
 
   public void nemesis(){
