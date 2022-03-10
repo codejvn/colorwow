@@ -143,7 +143,7 @@ public class Robot extends TimedRobot {
     m_rainbowFirstPixelHue %= 180;
   } 
 
-  public void oneatatime(int red, int blue, int green, double time){
+  public void oneatatime(int red, int blue, int green, double time){ //this is the only method that doesn't work as of 3/9/22.
     rgb(0,0,0);
     // for (int x = 0; x < buffer.getLength(); x++){ //make a bool to go under this statement to make the below run only once per iteration
     //   if (timer.get()% time < 0.001){
