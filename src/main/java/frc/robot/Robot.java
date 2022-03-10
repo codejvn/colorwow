@@ -242,6 +242,9 @@ public class Robot extends TimedRobot {
     if (joystick.getRawButton(12)){
       nemesis();
     }
+    if (joystick.getRawButton(11)){
+      ukraine();
+    }
   }
 
 
