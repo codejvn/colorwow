@@ -73,6 +73,7 @@ public class Robot extends TimedRobot {
     curtime = 0;
     lasttime = 0;
     on = true;
+    m_interval = 0.5;
   }
 
   /**
@@ -189,17 +190,21 @@ public class Robot extends TimedRobot {
     //     }
      // }
    // }
-   double timestamp = Timer.getFPGATimestamp();
+   
+  }
+
+  public void alternate(int red1, int blue1, int green1, int red2, int blue2, int green2){
+    double timestamp = Timer.getFPGATimestamp();
 		if (timestamp- lastChange > m_interval){ //warning, i dont see where this changes on back to true...
 			on = !on;
 			lastChange = timestamp;
 		}
 		if (on){
 			// m_onPattern.setLEDs(buffer);
-      rgb(255,0,0);
+      rgb(red1,green1,blue1);
 		} else {
 			// m_offPattern.setLEDs(buffer);
-      rgb(0,0,0);
+      rgb(red2,green2,blue2);
 		}
   }
 
@@ -240,13 +245,13 @@ public class Robot extends TimedRobot {
     if (joystick.getRawButton(4)){
       rgb(0,0, 255);
     }
-    if (joystick.getRawButton(5)){
-      System.out.println("time rn: " + timer.get());
-      while (!stop){
-      oneatatime(120, 200, 30, 1);
-      }
-    }
     if (joystick.getRawButton(2)){
+      System.out.println("time rn: " + timer.get());
+      // while (!stop){
+      oneatatime(120, 200, 30, 1);
+      // }
+    }
+    if (joystick.getRawButton(7)){
       System.out.println("button 2");
       rainbow();
       led.setData(buffer);
