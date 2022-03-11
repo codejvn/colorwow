@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
+import java.util.Random;
 
 /**
  * import edu.wpi.first.wpilibj.Joystick;
@@ -51,6 +52,7 @@ public class Robot extends TimedRobot {
   private double m_interval;
   private double lastChange;
   private boolean on;
+  private Random random;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -73,7 +75,8 @@ public class Robot extends TimedRobot {
     curtime = 0;
     lasttime = 0;
     on = true;
-    m_interval = 0.5;
+    m_interval = 0.1;
+    random = new Random();
   }
 
   /**
@@ -125,7 +128,7 @@ public class Robot extends TimedRobot {
   }
 
   public void rgb(int red, int blue, int green){
-      for (int i = 0; i < 60; i++){
+      for (int i = 0; i < buffer.getLength(); i++){
         // System.out.println("changing buffer: " + i);
         buffer.setRGB(i, red, blue, green);
       }
@@ -146,6 +149,7 @@ public class Robot extends TimedRobot {
     m_rainbowFirstPixelHue += 3;
     // Check bounds
     m_rainbowFirstPixelHue %= 180;
+    led.setData(buffer);
   } 
 
   public void oneatatime(int red, int blue, int green, double time){ //this is the only method that doesn't work as of 3/9/22.
@@ -220,9 +224,38 @@ public class Robot extends TimedRobot {
     }
   }
 
+  public void nemessialternate(){ //nemesis() with alternating colors
+    double timestamp = Timer.getFPGATimestamp();
+		if (timestamp - lastChange > m_interval){ //warning, i dont see where this changes on back to true...
+			on = !on;
+			lastChange = timestamp;
+		}
+		if (on){
+			// m_onPattern.setLEDs(buffer);
+      for (int x = 0; x < buffer.getLength(); x++){
+        if (x % 10 < 7){
+          buffer.setRGB(x, 255, 0, 0);
+        }
+        else{
+          buffer.setHSV(x, 120, 0, 100);
+        }
+		}} else { 
+			// m_offPattern.setLEDs(buffer);
+      for (int x = 0; x < buffer.getLength(); x++){
+        if (x % 10 < 7){
+          buffer.setHSV(x, 120, 0, 100);
+        }
+        else{
+          buffer.setRGB(x, 255, 0, 0);
+        }
+		}
+  }
+  led.setData(buffer);
+  }
+
   public void ukraine(){
     for (int x = 0; x < buffer.getLength(); x++){
-    if (x % 10 < 7){
+    if (x % 10 < 5){
       buffer.setRGB(x, 255, 255, 0);
     }
     else{
@@ -231,6 +264,69 @@ public class Robot extends TimedRobot {
     led.setData(buffer);
     }
   }
+  
+  public void ukrainealternate(){ //ukraine() but they change colors
+    double timestamp = Timer.getFPGATimestamp();
+		if (timestamp- lastChange > m_interval){ //warning, i dont see where this changes on back to true...
+			on = !on;
+			lastChange = timestamp;
+		}
+		if (on){
+			// m_onPattern.setLEDs(buffer);
+      for (int x = 0; x < buffer.getLength(); x++){
+        if (x % 10 < 7){
+          buffer.setRGB(x, 255, 255, 0);
+        }
+        else{
+          buffer.setRGB(x, 0, 0, 255);
+        }
+        led.setData(buffer);
+        }
+		} else {
+			// m_offPattern.setLEDs(buffer);
+      for (int x = 0; x < buffer.getLength(); x++){
+        if (x % 10 < 5){
+          buffer.setRGB(x, 0, 0, 255);
+        }
+        else{
+          buffer.setRGB(x, 255, 255, 0);
+        }
+        led.setData(buffer);
+        }
+		}
+  }
+
+
+    public void literallyRandom(){
+      for (int i = 0; i < buffer.getLength(); i++){
+      double timestamp = Timer.getFPGATimestamp();
+      System.out.println(timestamp + " - " + lastChange + " is greater than " + m_interval);
+		if (timestamp- lastChange > m_interval){ //warning, i dont see where this changes on back to true...
+			on = !on;
+			lastChange = timestamp;
+      onlyOnce = false;
+		}
+    if (!onlyOnce){
+		if (on){
+      System.out.println("light being changed " + i);
+      System.out.println("leds turning on");
+			// m_onPattern.setLEDs(buffer);
+
+      buffer.setRGB(i, random.nextInt(255), random.nextInt(255), random.nextInt(255));
+      led.setData(buffer);
+      onlyOnce = true;
+		} else {
+			// m_offPattern.setLEDs(buffer);
+      System.out.println("light being changed " + i);
+      System.out.println("led turning off");
+      buffer.setRGB(i, 0, 0, 0);
+      led.setData(buffer);
+		}
+  }
+  }
+    }
+
+
 
   /** This function is called periodically during operator control. */
   @Override
@@ -245,7 +341,7 @@ public class Robot extends TimedRobot {
     if (joystick.getRawButton(4)){
       rgb(0,0, 255);
     }
-    if (joystick.getRawButton(2)){
+    if (joystick.getRawButton(14)){
       System.out.println("time rn: " + timer.get());
       // while (!stop){
       oneatatime(120, 200, 30, 1);
@@ -265,8 +361,18 @@ public class Robot extends TimedRobot {
     if (joystick.getRawButton(12)){
       nemesis();
     }
-    if (joystick.getRawButton(11)){
+    if (joystick.getRawButton(15)){
       ukraine();
+    }
+    if (joystick.getRawButton(5)){
+      System.out.println("button dos");
+      nemessialternate();
+    }
+    if (joystick.getRawButton(16)){
+      ukrainealternate();
+    }
+    if (joystick.getRawButton(2)){
+      literallyRandom();
     }
   }
 
