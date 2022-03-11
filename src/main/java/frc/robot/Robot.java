@@ -327,6 +327,18 @@ public class Robot extends TimedRobot {
   }
     }
 
+  public void disco(int button, Double speed){
+    while (!joystick.getRawButton(button)){
+      rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255));
+      try {
+        Thread.sleep((long) (speed * 1000));
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+  }
+
   public void oneeach(int r, int g, int b){
     for (int i = 0; i < buffer.getLength(); i++){
       if (i > 0){
@@ -393,8 +405,11 @@ public class Robot extends TimedRobot {
     if (joystick.getRawButton(17)){
       literallyRandom();
     }
-    if (joystick.getRawButton(2)){
+    if (joystick.getRawButton(18)){
       oneeach(120, 120, 120);
+    }
+    if (joystick.getRawButton(2)){
+      disco(1, 0.1);
     }
   }
 
