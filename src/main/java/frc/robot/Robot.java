@@ -153,50 +153,50 @@ public class Robot extends TimedRobot {
     led.setData(buffer);
   } 
 
-  public void oneatatime(int red, int blue, int green, double time){ //this is the only method that doesn't work as of 3/9/22.
-    rgb(0,0,0);
-    // for (int x = 0; x < buffer.getLength(); x++){ //make a bool to go under this statement to make the below run only once per iteration
-    //   if (timer.get()% time < 0.001){
-    //     onlyOnce = false;
-    //     System.out.println("the current one being on is " + x);
-    //     if (!onlyOnce){
-    //     System.out.println("current time is: " + timer.get());
-    //     buffer.setRGB(x, red, green, blue);
-    //     led.setData(buffer);
-    //     onlyOnce = true;
-    //     if (joystick.getPOV() > 1){
-    //       System.out.println("stopping?");
-    //       stop = true;
-    //     }
-    //     }
-    //   }
-    // }
+  // public void oneatatime(int red, int blue, int green, double time){ //this is the only method that doesn't work as of 3/9/22.
+  //   rgb(0,0,0);
+  //   // for (int x = 0; x < buffer.getLength(); x++){ //make a bool to go under this statement to make the below run only once per iteration
+  //   //   if (timer.get()% time < 0.001){
+  //   //     onlyOnce = false;
+  //   //     System.out.println("the current one being on is " + x);
+  //   //     if (!onlyOnce){
+  //   //     System.out.println("current time is: " + timer.get());
+  //   //     buffer.setRGB(x, red, green, blue);
+  //   //     led.setData(buffer);
+  //   //     onlyOnce = true;
+  //   //     if (joystick.getPOV() > 1){
+  //   //       System.out.println("stopping?");
+  //   //       stop = true;
+  //   //     }
+  //   //     }
+  //   //   }
+  //   // }
 
-    //attempt #2:
-    // for (int x = 0; x < buffer.getLength(); x++){
-    //   if (timer.get() % time < 0.1){
-    //     curtime = timer.get();
-    //     System.out.println("current time is " + curtime + " last time was " + lasttime);
-    //     System.out.println("current time - last time = " + (curtime-lasttime));
-    //     if (curtime-lasttime < time){
-    //       System.out.println("idk if this was print");
-    //     buffer.setRGB(x, red, green, blue);
-    //     led.setData(buffer);
-    //     System.out.println("last time should be " + timer.get());
-    //     lasttime = timer.get();
-    //     if (joystick.getPOV() != -1){
-    //       System.out.println("stopping?");
-    //       stop = true;
-    //     }
-    //     }
-    //     if (joystick.getPOV() != -1){
-    //       System.out.println("stopping?");
-    //       stop = true;
-    //     }
-     // }
-   // }
+  //   //attempt #2:
+  //   // for (int x = 0; x < buffer.getLength(); x++){
+  //   //   if (timer.get() % time < 0.1){
+  //   //     curtime = timer.get();
+  //   //     System.out.println("current time is " + curtime + " last time was " + lasttime);
+  //   //     System.out.println("current time - last time = " + (curtime-lasttime));
+  //   //     if (curtime-lasttime < time){
+  //   //       System.out.println("idk if this was print");
+  //   //     buffer.setRGB(x, red, green, blue);
+  //   //     led.setData(buffer);
+  //   //     System.out.println("last time should be " + timer.get());
+  //   //     lasttime = timer.get();
+  //   //     if (joystick.getPOV() != -1){
+  //   //       System.out.println("stopping?");
+  //   //       stop = true;
+  //   //     }
+  //   //     }
+  //   //     if (joystick.getPOV() != -1){
+  //   //       System.out.println("stopping?");
+  //   //       stop = true;
+  //   //     }
+  //    // }
+  //  // }
    
-  }
+  // }
 
   public void alternate(int red1, int blue1, int green1, int red2, int blue2, int green2){
     double timestamp = Timer.getFPGATimestamp();
@@ -339,7 +339,7 @@ public class Robot extends TimedRobot {
     }
   }
 
-  public void oneeach(int r, int g, int b){
+  public void oneeach(int r, int g, int b){ //makes one light turn on, then turn off, then next light, so on 
     for (int i = 0; i < buffer.getLength(); i++){
       if (i > 0){
         buffer.setRGB(i-1, 0, 0, 0);
@@ -372,12 +372,12 @@ public class Robot extends TimedRobot {
     if (joystick.getRawButton(4)){
       rgb(0,0, 255);
     }
-    if (joystick.getRawButton(14)){
-      System.out.println("time rn: " + timer.get());
-      // while (!stop){
-      oneatatime(120, 200, 30, 1);
-      // }
-    }
+    // if (joystick.getRawButton(14)){
+    //   System.out.println("time rn: " + timer.get());
+    //   // while (!stop){
+    //   oneatatime(120, 200, 30, 1);
+    //   // }
+    // }
     if (joystick.getRawButton(7)){
       System.out.println("button 2");
       rainbow();
